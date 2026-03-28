@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // for new Input System
 
 public class DictionaryManager : MonoBehaviour
 {
@@ -33,14 +33,6 @@ public class DictionaryManager : MonoBehaviour
         GenerateQuestion();
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            GenerateQuestion();
-        }
-    }
-
     private void FillTextArray()
     {
         List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
@@ -48,7 +40,6 @@ public class DictionaryManager : MonoBehaviour
         foreach (Transform box in boxesParent)
         {
             TextMeshProUGUI tmp = box.GetComponentInChildren<TextMeshProUGUI>();
-
             if (tmp != null)
             {
                 texts.Add(tmp);
@@ -58,7 +49,7 @@ public class DictionaryManager : MonoBehaviour
         textMeshProUGUIs = texts.ToArray();
     }
 
-    private void GenerateQuestion()
+    public void GenerateQuestion()
     {
         PickRandomKana();
 
@@ -84,9 +75,21 @@ public class DictionaryManager : MonoBehaviour
         ShuffleList(answerChoices);
 
         // Assign to text boxes
+        //for (int i = 0; i < textMeshProUGUIs.Length; i++)
+        //{
+        //    textMeshProUGUIs[i].text = answerChoices[i];
+        //}
+
+
         for (int i = 0; i < textMeshProUGUIs.Length; i++)
         {
             textMeshProUGUIs[i].text = answerChoices[i];
+
+            // Assign tag to the box parent
+            if (answerChoices[i] == randomKana)
+                textMeshProUGUIs[i].transform.parent.parent.gameObject.tag = "correct";
+            else
+                textMeshProUGUIs[i].transform.parent.parent.gameObject.tag = "incorrect";
         }
     }
 
@@ -108,6 +111,15 @@ public class DictionaryManager : MonoBehaviour
             string temp = list[i];
             list[i] = list[randomIndex];
             list[randomIndex] = temp;
+        }
+    }
+
+    // Optional: generate new question with key press (new Input System)
+    private void Update()
+    {
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            GenerateQuestion();
         }
     }
 }
