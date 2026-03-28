@@ -34,9 +34,10 @@ public class collision : MonoBehaviour
                 Debug.Log("Points: " + pointSystem.points);
                 Debug.Log("Lives: " + pointSystem.lives);
 
-            }
+            } 
+            detect = false;
         }
-        detect = false;
+       
     }
 
     private void OnTriggerExit()
