@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d19735f60e1882b4bab4fd385d5055ef
+guid: 30761ff320997244792a01f8e735547f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,7 +94,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
+    buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Seaweed-Laden
-    Sand/Seaweed-LadenSandAmbientOcclusionMap.png
-  uploadId: 759440
