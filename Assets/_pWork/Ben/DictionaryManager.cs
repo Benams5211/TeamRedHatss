@@ -22,6 +22,8 @@ public class DictionaryManager : MonoBehaviour
 
     private readonly List<GameObject> _activeChoices = new List<GameObject>();
 
+    [SerializeField] private GameObject explosionPrefab;
+
     private void Start()
     {
         kanaLib.Add("あ", "a");
@@ -33,6 +35,15 @@ public class DictionaryManager : MonoBehaviour
         kanaKeys = new List<string>(kanaLib.Keys);
 
         GenerateQuestion();
+    }
+    public void ExplodeBox(GameObject box)
+    {
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, box.transform.position, Quaternion.identity);
+        }
+
+        Destroy(box);
     }
 
     public void GenerateQuestion()

@@ -1,10 +1,13 @@
 using UnityEngine;
-
+using TMPro;
 public class PointSystem : MonoBehaviour
 {
     public int maxLives = 3;
     public int lives;
     public int points = 0;
+
+    public TextMeshProUGUI livesText;
+    public TextMeshProUGUI pointsText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +28,7 @@ public class PointSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        pointsText.text = "Score:\n" + points;
+        livesText.text = "Lives:\n" + lives;
     }
 }

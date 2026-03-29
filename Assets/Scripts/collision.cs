@@ -36,6 +36,7 @@ public class collision : MonoBehaviour
             Debug.Log("Lives: " + pointSystem.lives);
 
             manager.ShowAnswerFeedback(other.gameObject, true);
+            //manager.ExplodeBox(other.gameObject);
             manager.GenerateQuestion();
 
             StartCoroutine(DisableColliderTemporarily());
@@ -56,6 +57,7 @@ public class collision : MonoBehaviour
             Debug.Log("Lives: " + pointSystem.lives);
 
             manager.ShowAnswerFeedback(other.gameObject, false);
+            //manager.ExplodeBox(other.gameObject);
             manager.GenerateQuestion();
 
             StartCoroutine(DisableColliderTemporarily());
