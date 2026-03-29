@@ -16,17 +16,6 @@ public class PointSystem : MonoBehaviour
     void Start()
     {
         lives = maxLives;
-            if(lives == 3) {
-                Vector3 spawnPos = new Vector3(-1f, 5f, 20f);
-                GameObject instance = GameOverUI = Instantiate(GameOverUI, spawnPos, Quaternion.identity);
-
-                SpawnIn spawnScript = instance.GetComponent<SpawnIn>();
-                if (spawnScript != null)
-                {
-                    spawnScript.target = targetPos;
-                    spawnScript.speed = 25f; // optional
-                }
-            }
     }
 
     public void getPoints() 
@@ -39,7 +28,14 @@ public class PointSystem : MonoBehaviour
         lives -= 1;
         if(lives == 0) {
             Vector3 spawnPos = new Vector3(-1f, 5f, 20f);
-            Instantiate(GameOverUI, spawnPos, Quaternion.identity);
+                GameObject instance = GameOverUI = Instantiate(GameOverUI, spawnPos, Quaternion.identity);
+
+                SpawnIn spawnScript = instance.GetComponent<SpawnIn>();
+                if (spawnScript != null)
+                {
+                    spawnScript.target = targetPos;
+                    spawnScript.speed = 25f;
+                }
         }
     }
 
