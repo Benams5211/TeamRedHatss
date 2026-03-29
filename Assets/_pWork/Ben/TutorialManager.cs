@@ -1,18 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// Tutorial scene controller. Walks the player through each character
-/// in the current tier, then offers the option to start that tier's level.
-///
-/// Flow:
-/// 1. Show a character (kana) and its romaji side by side as introduction
-/// 2. Player confirms they're ready (via button/trigger)
-/// 3. Quiz the player on that character mixed with previously learned ones
-/// 4. After all characters in the tier are practiced, mark tier tutorial complete
-/// 5. Fire OnTutorialComplete so UI can show "Start Level" button
+/// Tutorial scene controller. Auto-starts on scene load.
+/// For each character: shows a brief intro (kana + romaji), then spawns
+/// practice rounds. After all characters in the tier are practiced,
+/// marks the tier complete and fires OnTutorialComplete.
 /// </summary>
 public class TutorialManager : MonoBehaviour
 {
@@ -24,9 +20,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _progressText;
 
     [Header("Tutorial Settings")]
-    [Tooltip("Overridden at runtime by ActiveTierSelection if set.")]
+    [Tooltip("Overridden at runtime by ActiveTierSelection.")]
     [SerializeField] private int _tier = 0;
     [SerializeField] private int _practiceRoundsPerCharacter = 3;
+    [SerializeField] private float _introDisplayTime = 2f;
 
     [Header("Events")]
     public UnityEvent OnTutorialComplete;
@@ -39,7 +36,6 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
-        // Use the tier selected from the tier select screen if available
         _tier = ActiveTierSelection.SelectedTier;
         _tierEntries = KanaDatabase.GetTierEntries(_tier);
 
@@ -52,23 +48,22 @@ public class TutorialManager : MonoBehaviour
         _currentCharIndex = 0;
         _tutorialFinished = false;
 
-        // Load this tier into DictionaryManager so it uses the right character set
         _dictionaryManager.LoadTier(_tier);
 
-        ShowIntro();
+        StartCoroutine(RunIntro());
     }
 
     /// <summary>
-    /// Show the current character and its romaji as an introduction.
-    /// Call ConfirmIntro() when the player is ready to practice.
+    /// Shows the character intro for _introDisplayTime seconds, then auto-starts practice.
     /// </summary>
-    private void ShowIntro()
+    private IEnumerator RunIntro()
     {
         _inIntroPhase = true;
         _practiceCount = 0;
 
         KanaDatabase.KanaEntry entry = _tierEntries[_currentCharIndex];
 
+        // Show flashcard
         if (_kanaDisplayText != null)
             _kanaDisplayText.text = entry.kana;
 
@@ -76,21 +71,16 @@ public class TutorialManager : MonoBehaviour
             _romajiDisplayText.text = entry.romaji;
 
         if (_promptText != null)
-            _promptText.text = "New character! Study it, then tap to practice.";
+            _promptText.text = "New character:";
 
         UpdateProgressText();
-    }
 
-    /// <summary>
-    /// Call from a UI button or XR interaction to move from intro to practice.
-    /// </summary>
-    public void ConfirmIntro()
-    {
-        if (!_inIntroPhase || _tutorialFinished) return;
+        // Brief pause so the player can see the character
+        yield return new WaitForSeconds(_introDisplayTime);
 
+        // Transition to practice
         _inIntroPhase = false;
 
-        // Hide intro display
         if (_kanaDisplayText != null)
             _kanaDisplayText.text = "";
 
@@ -100,7 +90,7 @@ public class TutorialManager : MonoBehaviour
         if (_promptText != null)
             _promptText.text = "Find the correct kana!";
 
-        // Build the practice pool: all characters learned so far (0..currentCharIndex)
+        // Build practice pool: all characters learned so far
         List<KanaDatabase.KanaEntry> practicePool = new List<KanaDatabase.KanaEntry>();
         for (int i = 0; i <= _currentCharIndex; i++)
         {
@@ -111,12 +101,11 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called by collision/game logic when the player answers correctly during tutorial.
-    /// Tracks practice rounds and advances to the next character when ready.
+    /// Called by collision when the player answers correctly.
     /// </summary>
     public void OnCorrectAnswer()
     {
-        if (_tutorialFinished) return;
+        if (_tutorialFinished || _inIntroPhase) return;
 
         _practiceCount++;
 
@@ -130,7 +119,7 @@ public class TutorialManager : MonoBehaviour
             }
             else
             {
-                ShowIntro();
+                StartCoroutine(RunIntro());
             }
         }
         else
@@ -140,11 +129,10 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the player answers incorrectly. Tutorial continues from same state.
+    /// Called by collision when the player answers incorrectly.
     /// </summary>
     public void OnIncorrectAnswer()
     {
-        // Don't advance practice count, just generate a new question
         if (!_tutorialFinished && !_inIntroPhase)
         {
             _dictionaryManager.GenerateQuestion();
@@ -165,6 +153,7 @@ public class TutorialManager : MonoBehaviour
         if (_romajiDisplayText != null)
             _romajiDisplayText.text = "";
 
+        UpdateProgressText();
         OnTutorialComplete?.Invoke();
     }
 
