@@ -10,8 +10,14 @@ public class DictionaryManager : MonoBehaviour
 
     private string randomKana;
     private string romaji;
+    private int _currentTierIndex;
+    private float _questionStartTime;
 
     [SerializeField] private TextMeshProUGUI toFind;
+
+    [Header("Tier Selection")]
+    [SerializeField] private TierFlags _activeTiers = TierFlags.Vowels;
+    [SerializeField] private bool _includeAllUnlockedTiers = false;
 
     [Header("Choice Spawning")]
     [SerializeField] private GameObject _choicePrefab;
@@ -22,17 +28,80 @@ public class DictionaryManager : MonoBehaviour
 
     private readonly List<GameObject> _activeChoices = new List<GameObject>();
 
+    /// <summary>The kana/word currently being asked about.</summary>
+    public string CurrentKana => randomKana;
+    /// <summary>The tier index for the current question pool.</summary>
+    public int CurrentTierIndex => _currentTierIndex;
+    /// <summary>Seconds elapsed since the current question was shown.</summary>
+    public float ResponseTime => Time.time - _questionStartTime;
+
     private void Start()
     {
-        kanaLib.Add("あ", "a");
-        kanaLib.Add("い", "i");
-        kanaLib.Add("う", "u");
-        kanaLib.Add("え", "e");
-        kanaLib.Add("お", "o");
+        // If coming from tier select in Gameplay mode, use that tier
+        if (ActiveTierSelection.Mode == ActiveTierSelection.PlayMode.Gameplay)
+        {
+            LoadTier(ActiveTierSelection.SelectedTier);
+        }
+        else if (_includeAllUnlockedTiers)
+        {
+            LoadTiers(TierProgress.GetUnlockedFlags());
+        }
+        else
+        {
+            LoadTiers(_activeTiers);
+        }
 
+        // Tutorial scene: TutorialManager.Start() calls LoadTier + GenerateQuestion itself,
+        // so only auto-generate if we're not in tutorial mode
+        if (ActiveTierSelection.Mode != ActiveTierSelection.PlayMode.Tutorial)
+            GenerateQuestion();
+    }
+
+    /// <summary>
+    /// Load characters for the given tier flags into the active pool.
+    /// Example: LoadTiers(TierFlags.Vowels | TierFlags.Consonants)
+    /// </summary>
+    public void LoadTiers(TierFlags flags)
+    {
+        List<KanaDatabase.KanaEntry> entries = KanaDatabase.GetEntries(flags);
+        ApplyEntries(entries);
+
+        // Store the lowest set tier index for stats tracking
+        for (int i = 0; i < KanaDatabase.TierCount; i++)
+        {
+            if ((flags & KanaDatabase.TierIndexToFlag(i)) != 0)
+            {
+                _currentTierIndex = i;
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Load a single tier by index into the active pool.
+    /// </summary>
+    public void LoadTier(int tier)
+    {
+        _currentTierIndex = tier;
+        LoadTiers(KanaDatabase.TierIndexToFlag(tier));
+    }
+
+    /// <summary>
+    /// Load a custom set of entries (used by TutorialManager for progressive practice).
+    /// </summary>
+    public void LoadEntries(List<KanaDatabase.KanaEntry> entries)
+    {
+        ApplyEntries(entries);
+    }
+
+    private void ApplyEntries(IEnumerable<KanaDatabase.KanaEntry> entries)
+    {
+        kanaLib.Clear();
+        foreach (KanaDatabase.KanaEntry e in entries)
+        {
+            kanaLib[e.kana] = e.romaji;
+        }
         kanaKeys = new List<string>(kanaLib.Keys);
-
-        GenerateQuestion();
     }
 
     public void GenerateQuestion()
@@ -47,6 +116,7 @@ public class DictionaryManager : MonoBehaviour
 
         PickRandomKana();
         toFind.text = romaji;
+        _questionStartTime = Time.time;
 
         // Build answer choices
         List<string> answerChoices = new List<string> { randomKana };
@@ -71,18 +141,15 @@ public class DictionaryManager : MonoBehaviour
             GameObject choice = Instantiate(_choicePrefab);
             _activeChoices.Add(choice);
 
-            // Set answer text (prefab structure: Choice > Canvas > Image > Text (TMP))
             TextMeshProUGUI tmp = choice.GetComponentInChildren<TextMeshProUGUI>();
             if (tmp != null)
                 tmp.text = answerChoices[i];
 
-            // Tag the root object for collision detection
             choice.tag = answerChoices[i] == randomKana ? "correct" : "incorrect";
 
             boxes[i] = choice.transform;
         }
 
-        // Animate from start points to end points
         if (_lerpManager != null)
             _lerpManager.AnimateAnswers(boxes);
     }
@@ -96,7 +163,6 @@ public class DictionaryManager : MonoBehaviour
     {
         if (_lerpManager == null) return;
 
-        // Pull it out so GenerateQuestion won't destroy it mid-flash
         _activeChoices.Remove(hitChoice);
 
         TextMeshProUGUI hitText = hitChoice.GetComponentInChildren<TextMeshProUGUI>();
