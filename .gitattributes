@@ -2,7 +2,6 @@
 # Git LFS tracking rules
 # Unity 6000.4.0f1 - Futuristic Cavemen VR
 # ============================================
-
 # --- Audio ---
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.mp3 filter=lfs diff=lfs merge=lfs -text
@@ -10,7 +9,6 @@
 *.aif filter=lfs diff=lfs merge=lfs -text
 *.aiff filter=lfs diff=lfs merge=lfs -text
 *.flac filter=lfs diff=lfs merge=lfs -text
-
 # --- 3D Models ---
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.obj filter=lfs diff=lfs merge=lfs -text
@@ -22,7 +20,6 @@
 *.max filter=lfs diff=lfs merge=lfs -text
 *.ma filter=lfs diff=lfs merge=lfs -text
 *.mb filter=lfs diff=lfs merge=lfs -text
-
 # --- Textures ---
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.tga filter=lfs diff=lfs merge=lfs -text
@@ -35,26 +32,22 @@
 *.hdr filter=lfs diff=lfs merge=lfs -text
 *.bmp filter=lfs diff=lfs merge=lfs -text
 *.gif filter=lfs diff=lfs merge=lfs -text
-
 # --- Video ---
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.webm filter=lfs diff=lfs merge=lfs -text
 *.avi filter=lfs diff=lfs merge=lfs -text
-
 # --- Fonts ---
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
 *.woff filter=lfs diff=lfs merge=lfs -text
 *.woff2 filter=lfs diff=lfs merge=lfs -text
-
 # --- Unity true binaries ---
 *.unitypackage filter=lfs diff=lfs merge=lfs -text
 *.cubemap filter=lfs diff=lfs merge=lfs -text
 *.lighting filter=lfs diff=lfs merge=lfs -text
-
 # --- Unity text-serialized (Force Text) - diffable/mergeable, pinned to LF ---
-*.unity text eol=lf merge=unityyamlmerge diff
+*.unity filter=lfs diff=lfs merge=lfs -text
 *.asset text eol=lf merge=unityyamlmerge diff
 *.prefab text eol=lf merge=unityyamlmerge diff
 *.mat text eol=lf merge=unityyamlmerge diff
@@ -65,7 +58,6 @@
 *.overrideController text eol=lf merge=unityyamlmerge diff
 *.mask text eol=lf merge=unityyamlmerge diff
 *.anim text eol=lf merge=unityyamlmerge diff
-
 # --- Compiled / build artifacts ---
 *.dll filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
@@ -73,22 +65,18 @@
 *.dylib filter=lfs diff=lfs merge=lfs -text
 *.apk filter=lfs diff=lfs merge=lfs -text
 *.aab filter=lfs diff=lfs merge=lfs -text
-
 # --- Archives ---
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.7z filter=lfs diff=lfs merge=lfs -text
 *.gz filter=lfs diff=lfs merge=lfs -text
 *.tar filter=lfs diff=lfs merge=lfs -text
 *.rar filter=lfs diff=lfs merge=lfs -text
-
 # --- Substance ---
 *.sbsar filter=lfs diff=lfs merge=lfs -text
 *.spp filter=lfs diff=lfs merge=lfs -text
-
 # --- Shader graphs (JSON text in Unity 6) ---
 *.shadergraph text eol=lf
 *.shadersubgraph text eol=lf
-
 # --- Code and config text files ---
 *.cs text eol=lf diff=csharp
 *.shader text eol=lf
@@ -105,6 +93,5 @@
 *.asmdef text eol=lf
 *.asmref text eol=lf
 *.inputactions text eol=lf
-
 # --- Per-file LFS overrides ---
 Assets/Scenes/_pScenes/dogSkin.unity filter=lfs diff=lfs merge=lfs -text
