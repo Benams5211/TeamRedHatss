@@ -17,6 +17,7 @@ public class collision : MonoBehaviour
         {
             if (other.gameObject.tag == "correct")
             {
+                audioSource1.Play();
                 Debug.Log("Correct");
                 pointSystem.getPoints();
 
@@ -51,7 +52,7 @@ public class collision : MonoBehaviour
 
     private void Start()
     {
-        audioSource1 = GetComponent<AudioSource>();
+        //audioSource1 = GetComponent<AudioSource>();
     }
 
     private void Update()

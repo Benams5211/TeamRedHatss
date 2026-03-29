@@ -14107,6 +14107,7 @@ MonoBehaviour:
   pointSystem: {fileID: 1843257739}
   manager: {fileID: 1953856682}
   detect: 1
+  audioSource1: {fileID: 267161533}
 --- !u!114 &1852688741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14910,6 +14911,7 @@ MonoBehaviour:
   pointSystem: {fileID: 1843257739}
   manager: {fileID: 1953856682}
   detect: 1
+  audioSource1: {fileID: 267161533}
 --- !u!54 &1949788709
 Rigidbody:
   m_ObjectHideFlags: 0
