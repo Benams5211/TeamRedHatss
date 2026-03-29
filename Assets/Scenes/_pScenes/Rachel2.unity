@@ -3816,6 +3816,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 940d55d4117386f4f9398ea3ff52d4cd, type: 3}
   m_PrefabInstance: {fileID: 1918239176}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &962625386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 962625387}
+  m_Layer: 0
+  m_Name: Target Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &962625387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962625386}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.38733, y: 9.77538, z: -20.27686}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971872241
 GameObject:
   m_ObjectHideFlags: 0
@@ -9174,14 +9205,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3029456804432239977, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445418498868035740, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4491960786512266487, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
       propertyPath: m_Name
       value: GameOverUI
       objectReference: {fileID: 0}
     - target: {fileID: 4491960786512266487, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7832682354720608309, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 962625387}
     - target: {fileID: 7955347685987587400, guid: 1c06686567b32a248b79714ce56f6957, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.38733
@@ -9267,3 +9310,4 @@ SceneRoots:
   - {fileID: 144989869}
   - {fileID: 8364701972410693417}
   - {fileID: 1280094042}
+  - {fileID: 962625387}

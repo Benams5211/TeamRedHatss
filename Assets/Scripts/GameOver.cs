@@ -15,12 +15,12 @@ public class GameOver : MonoBehaviour
         //points.text = "Points: " + pointSystem.points;
         //lives.text = "Lives Left: " + pointSystem.lives;
 
-        Vector3 spawnPos = new Vector3(-10.38733f, 9.77538f, -20.27686f);
+        Vector3 spawnPos = new Vector3(-7.86038f, 0f, 50.26112f);
         Instantiate(GameOverUI, spawnPos, Quaternion.identity);
     }
 
     public void restartGame() {
-
+        Debug.Log("Restart game");
     }
 
     // Update is called once per frame
