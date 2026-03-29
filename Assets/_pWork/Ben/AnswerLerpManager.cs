@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -31,13 +32,21 @@ public class AnswerLerpManager : MonoBehaviour
 
     public int PathCount => _paths.Length;
 
+    private readonly List<Coroutine> _lerpCoroutines = new List<Coroutine>();
+
     /// <summary>
     /// Spawn each answer box at its paired start point and curved-lerp it to its end point.
-    /// boxes[i] uses _paths[i].
+    /// Only stops previous lerp coroutines — flash coroutines are left untouched.
     /// </summary>
     public void AnimateAnswers(Transform[] boxes)
     {
-        StopAllCoroutines();
+        // Stop only lerp coroutines, not flash coroutines
+        foreach (Coroutine c in _lerpCoroutines)
+        {
+            if (c != null)
+                StopCoroutine(c);
+        }
+        _lerpCoroutines.Clear();
 
         int count = Mathf.Min(boxes.Length, _paths.Length);
         for (int i = 0; i < count; i++)
@@ -45,7 +54,7 @@ public class AnswerLerpManager : MonoBehaviour
             Vector3 start = _paths[i].startPoint.position;
             Vector3 end = _paths[i].endPoint.position;
             boxes[i].position = start;
-            StartCoroutine(CurvedLerpRoutine(boxes[i], start, end));
+            _lerpCoroutines.Add(StartCoroutine(CurvedLerpRoutine(boxes[i], start, end)));
         }
     }
 
