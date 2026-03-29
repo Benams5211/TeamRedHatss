@@ -18,7 +18,7 @@ public class GameOver : MonoBehaviour
     }
 
     public void restartGame() {
-
+        
     }
 
     // Update is called once per frame
