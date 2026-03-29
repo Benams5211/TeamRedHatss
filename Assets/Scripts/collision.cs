@@ -1,79 +1,110 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class collision : MonoBehaviour
 {
-    public PointSystem pointSystem;
-    public DictionaryManager manager;
+    public bool detect = true;
 
-    public AudioManager audioManager;
-    public SphereCollider sphereCol;
+    private PointSystem _pointSystem;
+    private DictionaryManager _manager;
+    private TutorialManager _tutorialManager;
 
-    [SerializeField] private float hitCooldown = 1.0f;
-    private bool canHit = true;
-
-    private void Start()
+    private void OnEnable()
     {
-        if (sphereCol == null)
-            sphereCol = GetComponent<SphereCollider>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        FindReferences();
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindReferences();
+    }
+
+    private void FindReferences()
+    {
+        _pointSystem = FindAnyObjectByType<PointSystem>();
+        _manager = FindAnyObjectByType<DictionaryManager>();
+        _tutorialManager = FindAnyObjectByType<TutorialManager>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!canHit) return;
+        if (_manager == null || _pointSystem == null)
+            FindReferences();
 
-        if (other.CompareTag("correct"))
+        if (_manager == null || _pointSystem == null) return;
+
+        // The collider is on Cube (child), but the tag is on box (parent).
+        // Walk up one level from the collider to the box root.
+        GameObject root = other.transform.parent != null
+            ? other.transform.parent.gameObject
+            : other.gameObject;
+
+        Debug.Log("[Collision] Hit: " + other.gameObject.name
+            + " | Parent: " + (root != null ? root.name : "null")
+            + " | Tag: " + root.tag
+            + " | detect: " + detect
+            + " | manager: " + (_manager != null ? _manager.gameObject.name : "null")
+            + " | tutorial: " + (_tutorialManager != null));
+
+        if (detect)
         {
-            canHit = false;
+            if (root.CompareTag("correct"))
+            {
+                Debug.Log("Correct");
+                _pointSystem.getPoints();
+                RecordStat(true);
+                _manager.ShowAnswerFeedback(root, true);
 
-            audioManager.PlayCorrect();
+                if (_tutorialManager != null)
+                    _tutorialManager.OnCorrectAnswer();
+                else
+                    _manager.GenerateQuestion();
+            }
+            else if (root.CompareTag("incorrect"))
+            {
+                Debug.Log("Incorrect");
+                _pointSystem.loseLife();
+                RecordStat(false);
+                _manager.ShowAnswerFeedback(root, false);
 
-            Debug.Log("Correct");
-            pointSystem.getPoints();
-
-            Debug.Log("Points: " + pointSystem.points);
-            Debug.Log("Lives: " + pointSystem.lives);
-
-            manager.ShowAnswerFeedback(other.gameObject, true);
-            //manager.ExplodeBox(other.gameObject);
-            manager.GenerateQuestion();
-
-            StartCoroutine(DisableColliderTemporarily());
+                if (_tutorialManager != null)
+                    _tutorialManager.OnIncorrectAnswer();
+                else
+                    _manager.GenerateQuestion();
+            }
         }
-        else if (other.CompareTag("incorrect"))
+        // Re-enable after a short delay since the choice may be destroyed
+        // before OnTriggerExit fires (destroying the collider skips the exit callback)
+        detect = false;
+        Invoke(nameof(ResetDetect), 0.2f);
+    }
+
+    private void ResetDetect()
+    {
+        detect = true;
+    }
+
+    private void RecordStat(bool correct)
+    {
+        if (KanaStatsTracker.Instance != null)
         {
-            canHit = false;
-
-            audioManager.PlayIncorrect();
-
-            Debug.Log("Incorrect");
-            pointSystem.loseLife();
-
-            if (pointSystem.lives < 0)
-                pointSystem.lives = 0;
-
-            Debug.Log("Points: " + pointSystem.points);
-            Debug.Log("Lives: " + pointSystem.lives);
-
-            manager.ShowAnswerFeedback(other.gameObject, false);
-            //manager.ExplodeBox(other.gameObject);
-            manager.GenerateQuestion();
-
-            StartCoroutine(DisableColliderTemporarily());
+            KanaStatsTracker.Instance.RecordAnswer(
+                _manager.CurrentTierIndex,
+                _manager.CurrentKana,
+                correct,
+                _manager.ResponseTime
+            );
         }
     }
 
-    private IEnumerator DisableColliderTemporarily()
+    private void OnTriggerExit()
     {
-        if (sphereCol != null)
-            sphereCol.enabled = false;
-
-        yield return new WaitForSeconds(hitCooldown);
-
-        if (sphereCol != null)
-            sphereCol.enabled = true;
-
-        canHit = true;
+        detect = true;
     }
 }
