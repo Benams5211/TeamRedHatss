@@ -14,6 +14,8 @@ public class DictionaryManager : MonoBehaviour
     private float _questionStartTime;
 
     [SerializeField] private TextMeshProUGUI toFind;
+    [Tooltip("Root transform of the toFind display object (the whole cube).")]
+    [SerializeField] private Transform _toFindRoot;
 
     [Header("Tier Selection")]
     [SerializeField] private TierFlags _activeTiers = TierFlags.Vowels;
@@ -43,6 +45,15 @@ public class DictionaryManager : MonoBehaviour
     /// until cleared. Distractors are still randomized from the pool.
     /// Pass null to return to random selection.
     /// </summary>
+    /// <summary>
+    /// Spin the toFind display and clear the text at the midpoint.
+    /// </summary>
+    public void SpinToFindEmpty()
+    {
+        if (_lerpManager != null && _toFindRoot != null && toFind != null)
+            _lerpManager.SpinToFindDisplay(_toFindRoot, toFind, "");
+    }
+
     public void PinCorrectAnswer(string kana)
     {
         _pinnedKana = kana;
@@ -119,7 +130,8 @@ public class DictionaryManager : MonoBehaviour
 
     public void GenerateQuestion()
     {
-        // Destroy leftover choices (hit choice is already removed from this list)
+        // Previous choices are cleaned up by ShowAnswerFeedback's flash timer.
+        // Only destroy if there are stale leftovers (e.g. first question, or no answer was given).
         for (int i = _activeChoices.Count - 1; i >= 0; i--)
         {
             if (_activeChoices[i] != null)
@@ -128,8 +140,17 @@ public class DictionaryManager : MonoBehaviour
         _activeChoices.Clear();
 
         PickRandomKana();
-        toFind.text = romaji;
         _questionStartTime = Time.time;
+
+        // Spin the entire toFind object and swap text at the midpoint
+        if (_lerpManager != null && _toFindRoot != null && toFind != null)
+        {
+            _lerpManager.SpinToFindDisplay(_toFindRoot, toFind, romaji);
+        }
+        else if (toFind != null)
+        {
+            toFind.text = romaji;
+        }
 
         // Build answer choices
         List<string> answerChoices = new List<string> { randomKana };
@@ -168,19 +189,17 @@ public class DictionaryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Call from collision to flash the hit answer green/red.
-    /// The hit choice is removed from the active list so it survives
-    /// the next GenerateQuestion call, then self-destructs after the flash.
+    /// Flash ALL active choices: correct = green, incorrect = red.
+    /// All choices are destroyed together after the flash duration.
+    /// New choices are already flying in during this time.
     /// </summary>
     public void ShowAnswerFeedback(GameObject hitChoice, bool isCorrect)
     {
         if (_lerpManager == null) return;
 
-        _activeChoices.Remove(hitChoice);
-
-        TextMeshProUGUI hitText = hitChoice.GetComponentInChildren<TextMeshProUGUI>();
-        if (hitText != null)
-            _lerpManager.ShowFeedback(hitText, isCorrect, hitChoice);
+        // Hand off all choices to the flash routine — it owns their lifecycle now
+        _lerpManager.ShowAllFeedback(new List<GameObject>(_activeChoices), "correct");
+        _activeChoices.Clear();
     }
 
     private void PickRandomKana()
@@ -212,9 +231,76 @@ public class DictionaryManager : MonoBehaviour
 
     private void Update()
     {
+        if (Keyboard.current == null) return;
+
         if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
             GenerateQuestion();
+
+        // Debug: ] = simulate hitting the correct answer
+        if (Keyboard.current.rightBracketKey.wasPressedThisFrame)
+            SimulateHit("correct");
+
+        // Debug: [ = simulate hitting a wrong answer
+        if (Keyboard.current.leftBracketKey.wasPressedThisFrame)
+            SimulateHit("incorrect");
+    }
+
+    private void SimulateHit(string tag)
+    {
+        // Find a matching active choice
+        GameObject target = null;
+        foreach (GameObject choice in _activeChoices)
+        {
+            if (choice != null && choice.CompareTag(tag))
+            {
+                target = choice;
+                break;
+            }
+        }
+
+        if (target == null)
+        {
+            Debug.Log("[SimulateHit] No active choice with tag: " + tag);
+            return;
+        }
+
+        TextMeshProUGUI tmp = target.GetComponentInChildren<TextMeshProUGUI>();
+        string choiceText = tmp != null ? tmp.text : "?";
+        Debug.Log("[SimulateHit] Pressed " + (tag == "correct" ? "]" : "[")
+            + " | Target: " + choiceText
+            + " | Expected: " + randomKana + " (" + romaji + ")"
+            + " | Result: " + tag.ToUpper());
+
+        bool isCorrect = tag == "correct";
+
+        // Try to route through collision if it exists (XR Rig spawned)
+        collision col = FindAnyObjectByType<collision>();
+        if (col != null)
+        {
+            Collider hitCollider = target.GetComponent<Collider>();
+            if (hitCollider != null)
+                col.SendMessage("OnTriggerEnter", hitCollider);
+            return;
+        }
+
+        // No XR Rig — handle directly (editor testing without Boot scene)
+        if (KanaStatsTracker.Instance != null)
+            KanaStatsTracker.Instance.RecordAnswer(_currentTierIndex, randomKana, isCorrect, ResponseTime);
+
+        ShowAnswerFeedback(target, isCorrect);
+
+        TutorialManager tutorial = FindAnyObjectByType<TutorialManager>();
+        if (tutorial != null)
+        {
+            if (isCorrect)
+                tutorial.OnCorrectAnswer();
+            else
+                tutorial.OnIncorrectAnswer();
+        }
+        else
+        {
+            if (isCorrect)
+                GenerateQuestion();
         }
     }
 }

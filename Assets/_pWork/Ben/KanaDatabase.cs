@@ -12,7 +12,8 @@ public enum TierFlags
     Vowels     = 1 << 0, // Tier 0
     Consonants = 1 << 1, // Tier 1
     Words      = 1 << 2, // Tier 2
-    All        = Vowels | Consonants | Words,
+    Katakana   = 1 << 3, // Tier 3
+    All        = Vowels | Consonants | Words | Katakana,
 }
 
 /// <summary>
@@ -119,7 +120,7 @@ public static class KanaDatabase
             new KanaEntry("ん", "n"),
         }),
 
-        // --- Tier 3: Simple Words ---
+        // --- Tier 2: Simple Words ---
         new Tier("Simple Words", new KanaEntry[]
         {
             new KanaEntry("いぬ", "inu"),       // dog
@@ -132,6 +133,67 @@ public static class KanaDatabase
             new KanaEntry("ひと", "hito"),       // person
             new KanaEntry("て", "te"),           // hand
             new KanaEntry("め", "me"),           // eye
+        }),
+
+        // --- Tier 3: Katakana ---
+        new Tier("Katakana", new KanaEntry[]
+        {
+            // Vowels
+            new KanaEntry("ア", "a"),
+            new KanaEntry("イ", "i"),
+            new KanaEntry("ウ", "u"),
+            new KanaEntry("エ", "e"),
+            new KanaEntry("オ", "o"),
+            // Ka-row
+            new KanaEntry("カ", "ka"),
+            new KanaEntry("キ", "ki"),
+            new KanaEntry("ク", "ku"),
+            new KanaEntry("ケ", "ke"),
+            new KanaEntry("コ", "ko"),
+            // Sa-row
+            new KanaEntry("サ", "sa"),
+            new KanaEntry("シ", "shi"),
+            new KanaEntry("ス", "su"),
+            new KanaEntry("セ", "se"),
+            new KanaEntry("ソ", "so"),
+            // Ta-row
+            new KanaEntry("タ", "ta"),
+            new KanaEntry("チ", "chi"),
+            new KanaEntry("ツ", "tsu"),
+            new KanaEntry("テ", "te"),
+            new KanaEntry("ト", "to"),
+            // Na-row
+            new KanaEntry("ナ", "na"),
+            new KanaEntry("ニ", "ni"),
+            new KanaEntry("ヌ", "nu"),
+            new KanaEntry("ネ", "ne"),
+            new KanaEntry("ノ", "no"),
+            // Ha-row
+            new KanaEntry("ハ", "ha"),
+            new KanaEntry("ヒ", "hi"),
+            new KanaEntry("フ", "fu"),
+            new KanaEntry("ヘ", "he"),
+            new KanaEntry("ホ", "ho"),
+            // Ma-row
+            new KanaEntry("マ", "ma"),
+            new KanaEntry("ミ", "mi"),
+            new KanaEntry("ム", "mu"),
+            new KanaEntry("メ", "me"),
+            new KanaEntry("モ", "mo"),
+            // Ya-row
+            new KanaEntry("ヤ", "ya"),
+            new KanaEntry("ユ", "yu"),
+            new KanaEntry("ヨ", "yo"),
+            // Ra-row
+            new KanaEntry("ラ", "ra"),
+            new KanaEntry("リ", "ri"),
+            new KanaEntry("ル", "ru"),
+            new KanaEntry("レ", "re"),
+            new KanaEntry("ロ", "ro"),
+            // Wa-row
+            new KanaEntry("ワ", "wa"),
+            new KanaEntry("ヲ", "wo"),
+            new KanaEntry("ン", "n"),
         }),
     };
 
