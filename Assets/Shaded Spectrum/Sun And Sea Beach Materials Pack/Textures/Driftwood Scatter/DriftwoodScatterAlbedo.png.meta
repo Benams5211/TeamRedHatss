@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e92d5b6d7faa52d43a0465e4234b6053
+guid: a17fc39e4c2db554f86f63aa9c204615
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Driftwood
-    Scatter/DriftwoodScatterAlbedo.png
-  uploadId: 759440

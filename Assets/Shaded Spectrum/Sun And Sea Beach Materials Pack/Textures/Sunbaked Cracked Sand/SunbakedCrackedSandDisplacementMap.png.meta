@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 20a1291b920159b4dbe7eff4caa2c2ce
+guid: 1a62c9104defa874389b41f4c6e3a408
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Sunbaked
-    Cracked Sand/SunbakedCrackedSandDisplacementMap.png
-  uploadId: 759440

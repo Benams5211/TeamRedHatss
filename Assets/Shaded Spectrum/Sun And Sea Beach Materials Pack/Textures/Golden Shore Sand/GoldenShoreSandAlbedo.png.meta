@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 13d4498c36fa04a4db1d51b646faa629
+guid: 110734c80a16086479cf6dcc98b3720f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Golden
-    Shore Sand/GoldenShoreSandAlbedo.png
-  uploadId: 759440

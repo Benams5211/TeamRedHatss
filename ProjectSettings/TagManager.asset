@@ -7,6 +7,8 @@ TagManager:
   - Anchor
   - correct
   - incorrect
+  - LeftHand
+  - RightHand
   layers:
   - Default
   - TransparentFX

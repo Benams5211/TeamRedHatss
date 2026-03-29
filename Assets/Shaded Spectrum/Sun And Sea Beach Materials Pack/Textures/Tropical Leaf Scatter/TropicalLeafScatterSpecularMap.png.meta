@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 891a751b2835a3940ba931940a58ff07
+guid: eed8ac9f3088fd04a9879222f18f7130
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Tropical
-    Leaf Scatter/TropicalLeafScatterSpecularMap.png
-  uploadId: 759440

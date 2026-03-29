@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: af20382997e13a64eadf7bc85c137236
+guid: 5da3e6c30c7f2824891ed1fca5ce30bf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Wet
-    Tidal Sand/WetTidalSandDisplacementMap.png
-  uploadId: 759440

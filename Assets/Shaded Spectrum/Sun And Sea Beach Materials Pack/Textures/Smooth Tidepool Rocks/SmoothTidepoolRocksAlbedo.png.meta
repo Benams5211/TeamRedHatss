@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2f38ec5a90c84a4d99a32f4593a6741
+guid: 8598837e12865cc41899dbcfa8347c62
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Smooth
-    Tidepool Rocks/SmoothTidepoolRocksAlbedo.png
-  uploadId: 759440

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 257cdbfbdab27694b896b9b302cf73cc
+guid: 08ee9969ab694594f8d5e3eaa6da012f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Pebbled
-    Cove/PebbledCoveSpecularMap.png
-  uploadId: 759440

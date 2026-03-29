@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7f6729beb79a10a42a37e534b9242acf
+guid: 9ba02c2f524c41346bf564f13ed70b1c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Driftwood
-    Scatter/DriftwoodScatterAmbientOcclusionMap.png
-  uploadId: 759440

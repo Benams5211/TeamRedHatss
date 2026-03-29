@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8baada8747dde75499b074b10889050b
+guid: b650428bc79320e49a0eefda7df18852
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Seaweed-Laden
-    Sand/Seaweed-LadenSandDisplacementMap.png
-  uploadId: 759440

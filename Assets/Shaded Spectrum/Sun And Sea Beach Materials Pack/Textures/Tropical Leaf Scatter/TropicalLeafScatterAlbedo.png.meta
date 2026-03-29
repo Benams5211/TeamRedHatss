@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5c0148c13f65278409e6375711e0aea1
+guid: 1d4ee11bf975612418cf420beeee22ce
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Tropical
-    Leaf Scatter/TropicalLeafScatterAlbedo.png
-  uploadId: 759440

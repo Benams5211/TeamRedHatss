@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 95ac77f41d212c642b005e21d1486260
+guid: bd10950d479ce334498ac8a5c0f075f3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Smooth
-    Tidepool Rocks/SmoothTidepoolRocksSpecularMap.png
-  uploadId: 759440

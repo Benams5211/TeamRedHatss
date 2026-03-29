@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5da2d32e4ceb96f4d8edc612202a84de
+guid: 19768e21b4ae72f4cae159c6c234548d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Beachside
-    Mosaic Tiles/BeachsideMosaicTilesDisplacementMap.png
-  uploadId: 759440

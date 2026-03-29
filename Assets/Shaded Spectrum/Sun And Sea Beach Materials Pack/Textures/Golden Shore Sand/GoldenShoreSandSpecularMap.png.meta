@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 253f35863c0ffa44e8f719ca37cab623
+guid: b1eb5fb803c70af4bbcdb39d4d7d6c49
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Golden
-    Shore Sand/GoldenShoreSandSpecularMap.png
-  uploadId: 759440

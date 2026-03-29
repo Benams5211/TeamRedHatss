@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d19735f60e1882b4bab4fd385d5055ef
+guid: c3ad616c54b438342bc5bc1ec8fa1001
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Seaweed-Laden
-    Sand/Seaweed-LadenSandAmbientOcclusionMap.png
-  uploadId: 759440

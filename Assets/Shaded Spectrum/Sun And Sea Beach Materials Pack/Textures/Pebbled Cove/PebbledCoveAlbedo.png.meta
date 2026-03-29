@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ec7e4fad56081cb4c960d0fcd4f56946
+guid: 2f98520c64295f343b6539c72b99d35e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,11 +128,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321530
-  packageName: 'Sun & Sea: Beach Materials Pack'
-  packageVersion: 1.0.0
-  assetPath: Assets/Shaded Spectrum/Sun And Sea Beach Materials Pack/Textures/Pebbled
-    Cove/PebbledCoveAlbedo.png
-  uploadId: 759440
