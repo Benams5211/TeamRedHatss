@@ -6,8 +6,7 @@ using TMPro;
 
 /// <summary>
 /// Handles curved lerp movement of answer boxes from spawn to endpoint,
-/// and color feedback (green/red) on the selected answer.
-/// Attach to any GameObject in the scene and reference from DictionaryManager.
+/// color feedback on all choices, and spin transition on the toFind display.
 /// </summary>
 public class AnswerLerpManager : MonoBehaviour
 {
@@ -31,16 +30,19 @@ public class AnswerLerpManager : MonoBehaviour
     [SerializeField] private Color _incorrectColor = Color.red;
 
     public int PathCount => _paths.Length;
+    public float FlashDuration => _flashDuration;
 
     private readonly List<Coroutine> _lerpCoroutines = new List<Coroutine>();
+    private Coroutine _spinCoroutine;
+    private Quaternion _toFindRestRotation;
+    private bool _toFindRestCaptured;
 
     /// <summary>
     /// Spawn each answer box at its paired start point and curved-lerp it to its end point.
-    /// Only stops previous lerp coroutines — flash coroutines are left untouched.
+    /// Only stops previous lerp coroutines — flash/spin coroutines are left untouched.
     /// </summary>
     public void AnimateAnswers(Transform[] boxes)
     {
-        // Stop only lerp coroutines, not flash coroutines
         foreach (Coroutine c in _lerpCoroutines)
         {
             if (c != null)
@@ -59,11 +61,35 @@ public class AnswerLerpManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Flash the hit answer green or red for 0.75s, then destroy the choice.
+    /// Flash ALL choices: correct one goes green, others go red.
+    /// All are destroyed together after flashDuration.
     /// </summary>
-    public void ShowFeedback(TextMeshProUGUI hitText, bool isCorrect, GameObject choiceRoot = null)
+    public void ShowAllFeedback(List<GameObject> allChoices, string correctTag)
     {
-        StartCoroutine(FlashColorRoutine(hitText, isCorrect, choiceRoot));
+        StartCoroutine(FlashAllRoutine(allChoices, correctTag));
+    }
+
+    /// <summary>
+    /// Spin the toFind transform 360 degrees over lerpDuration,
+    /// then set the new text at the end.
+    /// </summary>
+    public void SpinToFindDisplay(Transform toFindTransform, TextMeshProUGUI toFindText, string newText)
+    {
+        // Capture the rest rotation once, on the very first call
+        if (!_toFindRestCaptured)
+        {
+            _toFindRestRotation = toFindTransform.localRotation;
+            _toFindRestCaptured = true;
+        }
+
+        // Stop any in-progress spin and snap to rest before starting a new one
+        if (_spinCoroutine != null)
+        {
+            StopCoroutine(_spinCoroutine);
+            toFindTransform.localRotation = _toFindRestRotation;
+        }
+
+        _spinCoroutine = StartCoroutine(SpinRoutine(toFindTransform, toFindText, newText));
     }
 
     private IEnumerator CurvedLerpRoutine(Transform target, Vector3 start, Vector3 end)
@@ -78,10 +104,8 @@ public class AnswerLerpManager : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / _lerpDuration);
 
-            // Smoothstep ease in-out
             float smoothT = t * t * (3f - 2f * t);
 
-            // Quadratic bezier: B(t) = (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
             float oneMinusT = 1f - smoothT;
             Vector3 pos = oneMinusT * oneMinusT * start
                         + 2f * oneMinusT * smoothT * controlPoint
@@ -94,16 +118,54 @@ public class AnswerLerpManager : MonoBehaviour
         target.position = end;
     }
 
-    private IEnumerator FlashColorRoutine(TextMeshProUGUI text, bool isCorrect, GameObject choiceRoot)
+    private IEnumerator FlashAllRoutine(List<GameObject> choices, string correctTag)
     {
-        Color originalColor = text.color;
-        text.color = isCorrect ? _correctColor : _incorrectColor;
+        // Color all choices
+        foreach (GameObject choice in choices)
+        {
+            if (choice == null) continue;
+
+            TextMeshProUGUI tmp = choice.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp != null)
+                tmp.color = choice.CompareTag(correctTag) ? _correctColor : _incorrectColor;
+        }
 
         yield return new WaitForSeconds(_flashDuration);
 
-        if (choiceRoot != null)
-            Destroy(choiceRoot);
-        else
-            text.color = originalColor;
+        // Destroy all at once
+        foreach (GameObject choice in choices)
+        {
+            if (choice != null)
+                Destroy(choice);
+        }
+    }
+
+    private IEnumerator SpinRoutine(Transform target, TextMeshProUGUI text, string newText)
+    {
+        if (target == null) yield break;
+
+        float elapsed = 0f;
+
+        while (elapsed < _lerpDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / _lerpDuration);
+
+            // Always spin relative to the rest rotation
+            target.localRotation = _toFindRestRotation * Quaternion.Euler(0f, 0f, 360f * t);
+
+            // Swap text at the halfway point when it's edge-on
+            if (t >= 0.5f && text != null && text.text != newText)
+                text.text = newText;
+
+            yield return null;
+        }
+
+        // Snap back to rest
+        target.localRotation = _toFindRestRotation;
+        if (text != null)
+            text.text = newText;
+
+        _spinCoroutine = null;
     }
 }

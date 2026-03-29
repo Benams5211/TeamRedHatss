@@ -1,6 +1,10 @@
 fileFormatVersion: 2
-guid: 6fc4524f7d8cf884b879f279cf3149f3
+<<<<<<<< HEAD:Assets/Scenes/BUILD/game.unity.meta
+guid: 309c92b21ad969b4d81c42e6214be898
+========
+guid: cd3f9fcb9a633ae47a5eae93f1a350bf
 folderAsset: yes
+>>>>>>>> main:Assets/Audio/SFX.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

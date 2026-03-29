@@ -147,3 +147,4 @@ local.properties
 ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json
 ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
 Assets/XR/AndroidXR/AndroidXRSettingsInitializer
+Assets/XR/Settings/OpenXR Package Settings.asset
