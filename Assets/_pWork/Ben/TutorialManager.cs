@@ -90,7 +90,7 @@ public class TutorialManager : MonoBehaviour
         if (_promptText != null)
             _promptText.text = "Find the correct kana!";
 
-        // Build practice pool: all characters learned so far
+        // Build practice pool: only learned characters
         List<KanaDatabase.KanaEntry> practicePool = new List<KanaDatabase.KanaEntry>();
         for (int i = 0; i <= _currentCharIndex; i++)
         {

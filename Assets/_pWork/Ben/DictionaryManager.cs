@@ -22,6 +22,7 @@ public class DictionaryManager : MonoBehaviour
     [Header("Choice Spawning")]
     [SerializeField] private GameObject _choicePrefab;
     [SerializeField] private int _choiceCount = 4;
+    public int ChoiceCount => _choiceCount;
 
     [Header("Answer Animation")]
     [SerializeField] private AnswerLerpManager _lerpManager;
