@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Toolkit.Core.Bootstrapper
   _persistentPrefabs:
-  - {fileID: 1717954561962503725, guid: 40bd13c9b25c2be448091682cd23f2a7, type: 3}
+  - {fileID: 3873487320292146641, guid: 8183ad2d0399f2f4fbe564402fd4d7a7, type: 3}
   - {fileID: 8977090265957415777, guid: 87aaf6ae29dc3af47bbbf2a6d45bfd30, type: 3}
   - {fileID: 7877245818573218927, guid: a43a69fc224012344bc1afecca7c9fb9, type: 3}
   - {fileID: 1537585162840525630, guid: e2cc4b54fd9a08541afdcc7fb0e21ab6, type: 3}
