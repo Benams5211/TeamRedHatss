@@ -75,9 +75,9 @@ public class DictionaryManager : MonoBehaviour
             LoadTiers(_activeTiers);
         }
 
-        // Tutorial scene: TutorialManager.Start() calls LoadTier + GenerateQuestion itself,
-        // so only auto-generate if we're not in tutorial mode
-        if (ActiveTierSelection.Mode != ActiveTierSelection.PlayMode.Tutorial)
+        // Only auto-generate if there's no TutorialManager in the scene.
+        // TutorialManager.Start() drives LoadTier + GenerateQuestion itself.
+        if (FindAnyObjectByType<TutorialManager>() == null)
             GenerateQuestion();
     }
 
@@ -186,6 +186,8 @@ public class DictionaryManager : MonoBehaviour
 
         if (_lerpManager != null)
             _lerpManager.AnimateAnswers(boxes);
+
+        Debug.Log("[GenerateQuestion] Spawned " + _activeChoices.Count + " choices on " + gameObject.name + " (instance: " + GetInstanceID() + ")");
     }
 
     /// <summary>

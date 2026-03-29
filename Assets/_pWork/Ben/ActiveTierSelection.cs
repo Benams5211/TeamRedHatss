@@ -8,7 +8,7 @@ public static class ActiveTierSelection
     public static int SelectedTier { get; set; } = 0;
 
     /// <summary>Whether the player chose tutorial or gameplay for the selected tier.</summary>
-    public static PlayMode Mode { get; set; } = PlayMode.Tutorial;
+    public static PlayMode Mode { get; set; } = PlayMode.Gameplay;
 
     public enum PlayMode
     {

@@ -39,30 +39,44 @@ public class collision : MonoBehaviour
 
         if (_manager == null || _pointSystem == null) return;
 
+        // The collider is on Cube (child), but the tag is on box (parent).
+        // Walk up one level from the collider to the box root.
+        GameObject root = other.transform.parent != null
+            ? other.transform.parent.gameObject
+            : other.gameObject;
+
+        Debug.Log("[Collision] Hit: " + other.gameObject.name
+            + " | Parent: " + (root != null ? root.name : "null")
+            + " | Tag: " + root.tag
+            + " | detect: " + detect
+            + " | manager: " + (_manager != null ? _manager.gameObject.name : "null")
+            + " | tutorial: " + (_tutorialManager != null));
+
         if (detect)
         {
-            if (other.gameObject.CompareTag("correct"))
+            if (root.CompareTag("correct"))
             {
                 Debug.Log("Correct");
                 _pointSystem.getPoints();
                 RecordStat(true);
-                _manager.ShowAnswerFeedback(other.gameObject, true);
+                _manager.ShowAnswerFeedback(root, true);
 
-                // Route to tutorial or gameplay
                 if (_tutorialManager != null)
                     _tutorialManager.OnCorrectAnswer();
                 else
                     _manager.GenerateQuestion();
             }
-            else if (other.gameObject.CompareTag("incorrect"))
+            else if (root.CompareTag("incorrect"))
             {
                 Debug.Log("Incorrect");
                 _pointSystem.loseLife();
                 RecordStat(false);
-                _manager.ShowAnswerFeedback(other.gameObject, false);
+                _manager.ShowAnswerFeedback(root, false);
 
                 if (_tutorialManager != null)
                     _tutorialManager.OnIncorrectAnswer();
+                else
+                    _manager.GenerateQuestion();
             }
         }
         // Re-enable after a short delay since the choice may be destroyed
