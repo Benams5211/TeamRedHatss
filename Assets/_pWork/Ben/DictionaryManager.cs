@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class DictionaryManager : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class DictionaryManager : MonoBehaviour
 
     private string _pinnedKana;
 
+
+
     /// <summary>
     /// Pin a specific kana as the correct answer for all subsequent questions
     /// until cleared. Distractors are still randomized from the pool.
@@ -81,6 +84,7 @@ public class DictionaryManager : MonoBehaviour
         // TutorialManager.Start() drives LoadTier + GenerateQuestion itself.
         if (FindAnyObjectByType<TutorialManager>() == null)
             GenerateQuestion();
+
     }
 
     /// <summary>
@@ -129,15 +133,18 @@ public class DictionaryManager : MonoBehaviour
         }
         kanaKeys = new List<string>(kanaLib.Keys);
     }
-
+    [ContextMenu("Reset")]
     public void reset() 
     {
         pointSystem.lives = 3;
         pointSystem.points = 0;
+        PointSystem.gameOver = false;
+        pointSystem.RefreshUI();
     }
 
     public void GenerateQuestion()
     {
+        if (PointSystem.gameOver) return;
         // Previous choices are cleaned up by ShowAnswerFeedback's flash timer.
         // Only destroy if there are stale leftovers (e.g. first question, or no answer was given).
         for (int i = _activeChoices.Count - 1; i >= 0; i--)
@@ -243,8 +250,16 @@ public class DictionaryManager : MonoBehaviour
     {
         if (Keyboard.current == null) return;
 
+        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame && PointSystem.gameOver)
+        {
+            reset();
+        }
+
         if (Keyboard.current.pKey.wasPressedThisFrame)
             GenerateQuestion();
+
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+            reset();
 
         // Debug: ] = simulate hitting the correct answer
         if (Keyboard.current.rightBracketKey.wasPressedThisFrame)

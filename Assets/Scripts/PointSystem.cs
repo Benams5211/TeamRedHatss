@@ -22,12 +22,49 @@ public class PointSystem : MonoBehaviour
     public TextMeshProUGUI highScoreText;
 
     private int highScore;
+    public GameObject GameOverUI;
+    public Transform targetPos;
+
+    public static bool gameOver = false;
 
     private string SavePath => Path.Combine(Application.persistentDataPath, SaveFileName);
 
     private void Awake()
     {
         LoadHighScore();
+    }
+
+    private void Update()
+    {
+        if(gameOver)
+        {
+            GameOverUI.SetActive(true);
+        }
+        else
+        {
+            GameOverUI.SetActive(false);
+        }
+    }
+
+    public void loseLife()
+    {
+        if (gameOver) return;
+        lives -= 1;
+        if (lives == 0)
+        {
+            gameOver = true;
+            Debug.Log("YOU DEAD TWIN");
+            //Vector3 spawnPos = new Vector3(-9f, 6f, 0f);
+            //GameObject instance = Instantiate(GameOverUI, spawnPos, Quaternion.identity);
+            //instance.SetActive(true);
+            //SpawnIn spawnScript = instance.GetComponent<SpawnIn>();
+            //if (spawnScript != null)
+            //{
+            //    spawnScript.target = targetPos;
+            //    spawnScript.speed = 25f;
+            //}
+        }
+        RefreshUI();
     }
 
     private void Start()
@@ -43,13 +80,7 @@ public class PointSystem : MonoBehaviour
         RefreshUI();
     }
 
-    public void loseLife()
-    {
-        lives -= 1;
-        RefreshUI();
-    }
-
-    private void RefreshUI()
+    public void RefreshUI()
     {
         if (pointsText != null)
             pointsText.text = "Score:\n" + points;
