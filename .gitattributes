@@ -55,16 +55,16 @@
 
 # --- Unity text-serialized (Force Text) - diffable/mergeable, pinned to LF ---
 *.unity text eol=lf merge=unityyamlmerge diff
-*.asset text eol=lf
-*.prefab text eol=lf
-*.mat text eol=lf
+*.asset text eol=lf merge=unityyamlmerge diff
+*.prefab text eol=lf merge=unityyamlmerge diff
+*.mat text eol=lf merge=unityyamlmerge diff
 *.meta text eol=lf
-*.terrainlayer text eol=lf
-*.physicMaterial text eol=lf
-*.controller text eol=lf
-*.overrideController text eol=lf
-*.mask text eol=lf
-*.anim text eol=lf
+*.terrainlayer text eol=lf merge=unityyamlmerge diff
+*.physicMaterial text eol=lf merge=unityyamlmerge diff
+*.controller text eol=lf merge=unityyamlmerge diff
+*.overrideController text eol=lf merge=unityyamlmerge diff
+*.mask text eol=lf merge=unityyamlmerge diff
+*.anim text eol=lf merge=unityyamlmerge diff
 
 # --- Compiled / build artifacts ---
 *.dll filter=lfs diff=lfs merge=lfs -text
